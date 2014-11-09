@@ -1,13 +1,13 @@
-public class superArray{
+public class SuperArray{
     private Object[] data;
     private int stored;
 
-    public superArray(){
+    public SuperArray(){
 	data = new Object[10];
 	stored = 0;
     }
 
-    public superArray(int capacity){
+    public SuperArray(int capacity){
 	data = new Object[capacity];
 	stored = 0;
     }
@@ -22,12 +22,73 @@ public class superArray{
     }
 
     public void add(Object e){
-	data[stored] = e;
-	stored++;
+	if (data[data.length - 1] == null){
+	    data[stored] = e;
+	    stored++;
+	}else{
+	    Object[] result = new Object[data.length + 1];
+	    for (int i = 0;i<data.length;i++){
+		result[i] = data[i];
+	    }
+	    result[data.length] = e;
+	    data = result;
+	    stored++;
+	}
+    }
+    
+    public void add(int index, Object o){
+	if (!OutOfRange(index)){
+	    if (data[index] == null){
+		data[index] = o;
+		stored++;
+	    }else if (data[data.length-1] != null){
+		Object[] result = new Object[data.length + 1];
+		int i = 0;
+		while (i<index){
+		    result[i] = data[i];
+		    i++;
+		}
+		result[i] = o;
+		while (i<data.length){
+		    result[i+1] = data[i];
+		    i++;
+		}
+		data = result;
+		stored++;
+	    }else{
+		Object[] result = new Object[data.length];
+		int i = 0;
+		while (i<index){
+		    result[i] = data[i];
+		    i++;
+		}
+		result[i] = o;
+		while (i<data.length-1){
+		    result[i+1] = data[i];
+		    i++;
+		}
+		data = result;
+		stored++;
+	    }
+	}
+    }
+	
+    public boolean OutOfRange(int ind){
+	return (ind <  0 || ind >= size());
     }
 
+    public Object get(int index){
+	if (!OutOfRange(index)){
+	    return data[index];
+	}else{
+	    System.out.println("ERROR. INDEX OUT OF RANGE.");
+	    return null;
+	}
+    }
+	
+
     public int size(){
-	return stored;
+	return data.length;
     }
 
     public void resize(int newCapacity){
@@ -41,25 +102,20 @@ public class superArray{
     }
 
     public static void main(String[]args){
-	superArray test = new superArray(4);
+	SuperArray test = new SuperArray(4);
 	System.out.println(test);
 	test.add("e");
 	System.out.println(test);
 	test.resize(9);
 	System.out.println(test);
 	Integer x = new Integer(5);
-	superArray L = new superArray();
+	SuperArray L = new SuperArray();
 	L.add(x);
 	L.add(new Integer(99));
 	System.out.println(L);
+	test.add(0,"a");
+	System.out.println(test);
+	System.out.println(test.get(0));
+	System.out.println(test.get(11));
     }
 }
-
-/*	Object[] result = Object[data.length + 1];
-	for (int i = 0;i<data.length;i++){
-	    result[i] = data[i];
-	}
-	result[data.length] = e;
-	data = result;
-	stored++;
-*/
