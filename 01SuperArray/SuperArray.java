@@ -76,12 +76,10 @@ public class SuperArray{
     }
     
     public Object get(int index){
-	if (!OutOfRange(index)){
-	    return data[index];
-	}else{
-	    System.out.println("ERROR. INDEX OUT OF RANGE.");
-	    return null;
+	if (OutOfRange(index)){
+	    throw new IndexOutOfBoundsException();
 	}
+	return data[index];
     }
     
     
@@ -100,36 +98,32 @@ public class SuperArray{
     }
 
     public Object set(int index, Object o){
-	if (!OutOfRange(index)){
-	    Object save = data[index];
-	    data[index] = o;
-	    return save;
-	}else{
-	    System.out.println("ERROR. INDEX OUT OF RANGE.");
-	    return null;
+	if (OutOfRange(index)){
+	    throw new IndexOutOfBoundsException();
 	}
+	Object save = data[index];
+	data[index] = o;
+	return save;
     }
 
     public Object remove(int index){
-	if(!OutOfRange(index)){
-	    Object save = data[index];
-	    Object[] result = new Object[data.length];
-	    int i = 0;
-	    while (i<index){
-		result[i] = data[i];
-		i++;
-	    }
-	    while (i+1<data.length){
-		result[i] = data[i+1];
-		i++;
-	    }
-	    data = result;
-	    stored--;
-	    return save;
-	}else{
-	    System.out.println("ERROR. INDEX OUT OF RANGE.");
-	    return null;
+	if(OutOfRange(index)){
+	    throw new IndexOutOfBoundsException(); 
 	}
+	Object save = data[index];
+	Object[] result = new Object[data.length];
+	int i = 0;
+	while (i<index){
+	    result[i] = data[i];
+	    i++;
+	}
+	while (i+1<data.length){
+	    result[i] = data[i+1];
+	    i++;
+	}
+	data = result;
+	stored--;
+	return save;
     }
 
     public static void main(String[]args){
@@ -146,6 +140,7 @@ public class SuperArray{
 	System.out.println(L);
 	test.add(0,"a");
 	System.out.println(test);
+	try{
 	System.out.println(test.get(0));
 	System.out.println(test.get(11));
 	System.out.println(test.set(0,"u"));
@@ -154,5 +149,9 @@ public class SuperArray{
 	System.out.println(test.remove(0));
 	System.out.println(test);	
 	System.out.println(test.remove(11));
+	}
+	catch (IndexOutOfBoundsException e){
+	    System.out.println("ERROR. INDEX OUT OF BOUNDS.");
+	}
     }
 }
