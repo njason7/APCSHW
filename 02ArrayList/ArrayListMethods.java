@@ -12,6 +12,17 @@ public class ArrayListMethods{
 	    }
 	    i++;
 	}
+	randomize(l);
+    }
+
+    public static void randomize(ArrayList<Integer> l){
+	Random r = new Random();
+	for (int i = 0;i<l.size();i++){
+	    int num = r.nextInt(l.size());
+	    int save = l.get(i);
+	    l.set(i,l.get(num));
+	    l.set(num,save);
+	}
     }
 
     public static void main(String[]args){
@@ -30,5 +41,12 @@ public class ArrayListMethods{
 	System.out.println(test);
 	collapseDuplicates(test);
 	System.out.println(test);
+	ArrayList<Integer> test2 = new ArrayList<Integer>();
+	for (int i = 0;i<10;i++){
+	    test2.add(i);
+	}
+	System.out.println(test2);
+	randomize(test2);
+	System.out.println(test2);
     }
 }
