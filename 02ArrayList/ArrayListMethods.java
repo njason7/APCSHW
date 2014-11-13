@@ -1,5 +1,5 @@
 import java.util.*;
-public class collapse{
+public class ArrayListMethods{
     public static void collapseDuplicates(ArrayList<Integer> l){
 	int i = 0;
 	while (i<l.size()-1){
