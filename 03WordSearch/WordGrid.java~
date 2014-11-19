@@ -24,12 +24,6 @@ public class WordGrid{
      *separated by newlines.
      */
     public String toString(){
-	for (int r = 0;r<data.size();r++){
-	    for (int c = 0;c<data[r].size();c++){
-		System.out.println(data[r][c]+" ");
-	    }
-	    System.out.println("\n");
-	}
     }
 
     /**Attempts to add a given word to the specified position of the WordGrid.
