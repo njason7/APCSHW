@@ -8,8 +8,13 @@ public class WordGrid{
      */
     public WordGrid(int rows,int cols){
 	data = char[rows][cols];
+	for (int r = 0;r<data.size();r++){
+	    for (int c = 0;c<data[r].size();c++){
+		data[r][c] = ' ';
+	    }
+	}
     }
-
+    
     /**Set all values in the WordGrid to spaces ' '*/
     private void clear(){
 	for (int r = 0;r<data.size();r++){
