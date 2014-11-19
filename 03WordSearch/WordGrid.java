@@ -7,9 +7,9 @@ public class WordGrid{
      *@param col is the starting width of the WordGrid
      */
     public WordGrid(int rows,int cols){
-	data = char[rows][cols];
-	for (int r = 0;r<data.size();r++){
-	    for (int c = 0;c<data[r].size();c++){
+	data = new char[rows][cols];
+	for (int r = 0;r<data.length;r++){
+	    for (int c = 0;c<data[r].length;c++){
 		data[r][c] = ' ';
 	    }
 	}
@@ -17,8 +17,8 @@ public class WordGrid{
     
     /**Set all values in the WordGrid to spaces ' '*/
     private void clear(){
-	for (int r = 0;r<data.size();r++){
-	    for (int c = 0;c<data[r].size();c++){
+	for (int r = 0;r<data.length;r++){
+	    for (int c = 0;c<data[r].length;c++){
 		data[r][c] = ' ';
 	    }
 	}
@@ -29,12 +29,14 @@ public class WordGrid{
      *separated by newlines.
      */
     public String toString(){
-	for (int r = 0;r<data.size();r++){
-	    for (int c = 0;c<data[r].size();c++){
-		System.out.println(data[r][c]+" ");
+	String result = "";
+	for (int r = 0;r<data.length;r++){
+	    for (int c = 0;c<data[r].length;c++){
+		result += data[r][c]+" ";
 	    }
-	    System.out.println("\n");
+	    result +="\n";
 	}
+	return result;
     }
 
     /**Attempts to add a given word to the specified position of the WordGrid.
@@ -48,6 +50,18 @@ public class WordGrid{
      *or there are overlapping letters that do not match, then false is returned.
      */
     public boolean addWordHorizontal(String word,int row, int col){
+	if (word.length()<=data.length-col){
+	    for (int i = 0;i<word.length();i++){
+		data[row][col+i] = word.charAt(i);
+	    }
+	    return true;
+	}else if (col+1>=word.length()){
+	    for (int i = 0;i<word.length();i++){
+		data[row][col-i] = word.charAt(i);
+	    }
+	    return true;
+	}
+	return false;
     }
 
     //vertical + diagonal should be implemented as well.
