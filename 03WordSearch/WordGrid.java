@@ -8,11 +8,7 @@ public class WordGrid{
      */
     public WordGrid(int rows,int cols){
 	data = new char[rows][cols];
-	for (int r = 0;r<data.length;r++){
-	    for (int c = 0;c<data[r].length;c++){
-		data[r][c] = ' ';
-	    }
-	}
+	clear();
     }
     
     /**Set all values in the WordGrid to spaces ' '*/
@@ -50,20 +46,132 @@ public class WordGrid{
      *or there are overlapping letters that do not match, then false is returned.
      */
     public boolean addWordHorizontal(String word,int row, int col){
-	if (word.length()<=data.length-col){
+	if (word.length()<=data[row].length-col){
+	    boolean test = true;
 	    for (int i = 0;i<word.length();i++){
-		data[row][col+i] = word.charAt(i);
+		if (data[row][col+i] == ' ' || data[row][col+i] == word.charAt(i)){
+		   test = test && true;
+		}else{
+		    test = false;
+		}
 	    }
-	    return true;
+	    if (test){
+		for (int i = 0;i<word.length();i++){
+		    data[row][col+i] = word.charAt(i);
+		}
+		return true;
+	    }
+	    return false;
 	}else if (col+1>=word.length()){
+	    boolean test = true;
 	    for (int i = 0;i<word.length();i++){
-		data[row][col-i] = word.charAt(i);
+		if (data[row][col-i] == word.charAt(i) || data[row][col-i] == ' '){
+		    test = test && true;
+		}else{
+		    test = false;
+		}
 	    }
-	    return true;
+	    if (test){
+		for (int i = 0;i<word.length();i++){
+		    data[row][col-i] = word.charAt(i);
+		}
+		return true;
+	    }
 	}
 	return false;
     }
+    
 
-    //vertical + diagonal should be implemented as well.
+    public boolean addWordVertical(String word,int row, int col){
+	if (word.length()<=data.length-row){
+	    boolean test = true;
+	    for (int i = 0;i<word.length();i++){
+		if (data[row+i][col] == ' ' || data[row+i][col] == word.charAt(i)){
+		   test = test && true;
+		}else{
+		    test = false;
+		}
+	    }
+	    if (test){
+		for (int i = 0;i<word.length();i++){
+		    data[row+i][col] = word.charAt(i);
+		}
+		return true;
+	    }
+	    return false;
+	}else if (row+1>=word.length()){
+	    boolean test = true;
+	    for (int i = 0;i<word.length();i++){
+		if (data[row-i][col] == word.charAt(i) || data[row-i][col] == ' '){
+		    test = test && true;
+		}else{
+		    test = false;
+		}
+	    }
+	    if (test){
+		for (int i = 0;i<word.length();i++){
+		    data[row-i][col] = word.charAt(i);
+		}
+		return true;
+	    }
+	}
+	    return false;
+    }
 
+    public boolean addWordDiagonal(String word,int row, int col){
+	if (word.length()<=data[row].length-col && word.length()<=data.length-row){
+	    boolean test = true;
+	    for (int i = 0;i<word.length();i++){
+		if (data[row+i][col+i] == ' ' || data[row+i][col+i] == word.charAt(i)){
+		   test = test && true;
+		}else{
+		    test = false;
+		}
+	    }
+	    if (test){
+		for (int i = 0;i<word.length();i++){
+		    data[row+i][col+i] = word.charAt(i);
+		}
+		return true;
+	    }
+	    return false;
+	}else if (col+1>=word.length() && row+1>=word.length()){
+	    boolean test = true;
+	    for (int i = 0;i<word.length();i++){
+		if (data[row-i][col-i] == word.charAt(i) || data[row-i][col-i] == ' '){
+		    test = test && true;
+		}else{
+		    test = false;
+		}
+	    }
+	    if (test){
+		for (int i = 0;i<word.length();i++){
+		    data[row-i][col-i] = word.charAt(i);
+		}
+		return true;
+	    }
+	}
+	return false;
+    }
+    
+    public static void main (String[]args){
+	WordGrid test = new WordGrid(6,6);
+	System.out.println(test);
+	test.addWordVertical("cat",0,0);
+	System.out.println(test);
+	test.addWordVertical("cat",5,1);
+	System.out.println(test);
+	test.addWordDiagonal("cat",0,2);	
+	System.out.println(test);
+	test.addWordDiagonal("cat",5,5);
+	System.out.println(test);
+	test.addWordHorizontal("cat",0,2);
+	System.out.println(test);
+	test.addWordVertical("cat",5,5);
+	System.out.println(test);
+	test.addWordHorizontal("car",0,0);
+	System.out.println(test);
+	test.addWordVertical("cash",0,2);
+	System.out.println(test);
+    }
 }
