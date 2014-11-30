@@ -3,6 +3,10 @@ import java.io.File;
 import java.io.FileNotFoundException;
 public class WordGrid{
     private char[][]data;
+    private ArrayList<String> textlist = new ArrayList<String>();
+    Random rand = new Random();
+    public ArrayList<String> addList = new ArrayList<String>();
+    private boolean noanskey;
 
     /**Initialize the grid to the size specified and fill all of the positions
      *with spaces.
@@ -13,7 +17,13 @@ public class WordGrid{
 	data = new char[rows][cols];
 	clear();
     }
-    
+
+    public WordGrid(int rows,int cols,long seed){
+	data = new char[rows][cols];
+	rand.setSeed(seed);
+	clear();
+    }
+
     /**Set all values in the WordGrid to spaces ' '*/
     private void clear(){
 	for (int r = 0;r<data.length;r++){
@@ -168,5 +178,104 @@ public class WordGrid{
     public char getChar(int i, int j){
 	return data[i][j];
     }
-	
+    
+    public void setChar(int i,int j,char c){
+	data[i][j] = c;
+    }
+
+    public void setSeed(long seed){
+	rand.setSeed(seed);
+    }
+    
+    public void setanskey(boolean anskey){
+	noanskey = anskey;
+    }
+
+    public boolean getanskey(){
+	return noanskey;
+    }
+
+    public void loadWordsFromFile(String fileName, boolean fillRandomLetters) throws FileNotFoundException{
+	File text = new File(fileName);
+	Scanner scan = new Scanner(text);
+	while(scan.hasNextLine()){
+	    String line = scan.nextLine();
+	    textlist.add(line);
+	}
+	noanskey = fillRandomLetters;
+    }
+
+    public String wordsInPuzzle(){
+	String result = "Find these words: \n";
+	int i = 1;
+	while (i-1<addList.size()){
+	    String extra = "";
+	    for (int j = 10;j>addList.get(i-1).length();j--){
+		extra += " ";
+	    }
+	    result = result + addList.get(i-1) + extra;
+	    if (i%4 == 0 && i>0){
+		result += "\n";
+	    }
+	    i++;
+	}
+	return result;
+    }
+
+    public void fillInBlanks(){
+	for (int i = 0;i<data.length;i++){
+	    for (int j = 0;j<data[0].length;j++){
+		if (data[i][j]==' '){
+		    data[i][j] = (char)('A'+(int)(rand.nextInt(26)));
+		}
+	    }
+	}
+    }
+
+    public void addWords(){
+	int count = 0;
+	WordGrid clone = new WordGrid(data.length,data[0].length);
+	while (textlist.size()>0){
+	    int z = rand.nextInt(textlist.size());
+	    while (count < 10){
+		int decision = rand.nextInt(3);
+		int decy = rand.nextInt(this.getLength());
+		int decx = rand.nextInt(this.getLength(decy));
+		if (decision == 0){
+		    if (this.addWordHorizontal(textlist.get(z),decy,decx)){
+			addList.add(textlist.get(z));
+			break;
+		    }else{
+			count++;
+		    }
+		}else if (decision == 1){
+		    if (this.addWordVertical(textlist.get(z),decy,decx)){
+			addList.add(textlist.get(z));
+			break;
+		    }else{
+			count++;
+		    }
+		}else{
+		    if (this.addWordDiagonal(textlist.get(z),decy,decx)){
+			addList.add(textlist.get(z));
+			break;
+		    }else{
+			count++;
+		    }
+		}
+	    }
+	    textlist.remove(z);
+	    for (int i = 0;i<data.length;i++){
+		for (int j = 0;j<data[0].length;j++){
+		    clone.setChar(i,j,data[i][j]);
+		}
+	    }
+	}
+	if (!noanskey){
+	    System.out.println(clone);
+	}
+	System.out.println(this.wordsInPuzzle());
+	this.fillInBlanks();
+	System.out.println(this);
+    }
 }
