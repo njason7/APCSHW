@@ -157,63 +157,16 @@ public class WordGrid{
 	return false;
     }
 
-    private int getLength(){
+    public int getLength(){
 	return data.length;
     }
     
-    private int getLength(int i){
+    public int getLength(int i){
 	return data[i].length;
     }
 
-    private char getChar(int i, int j){
+    public char getChar(int i, int j){
 	return data[i][j];
     }
-    
-    public static void main (String[]args) throws FileNotFoundException{
-	WordGrid test = new WordGrid(10,10);
-	File text = new File("WordList.txt");
-	Scanner scan = new Scanner(text);
-	ArrayList<String> textlist = new ArrayList<String>();
-	while(scan.hasNextLine()){
-	    String line = scan.nextLine();
-	    textlist.add(line);
-	}
-	Random rd = new Random();
-	Random rx = new Random();
-	Random ry = new Random();
-	int count = 0;
-	for (int z = 0;z<textlist.size();z++){
-	    char[][] clone = new char[test.getLength()][test.getLength()];
-	    for (int i = 0;i<test.getLength();i++){
-		for (int j = 0;j<test.getLength(i);j++){
-		    clone[i][j] = test.getChar(i,j);
-		}
-	    }
-	    while (count < 10){
-		int decision = rd.nextInt(3);
-		int decy = ry.nextInt(test.getLength());
-		int decx = rx.nextInt(test.getLength(decy));
-		if (decision == 0){
-		    if (test.addWordHorizontal(textlist.get(z),decy,decx)){
-			break;
-		    }else{
-			count++;
-		    }
-		}else if (decision == 1){
-		    if (test.addWordVertical(textlist.get(z),decy,decx)){
-			break;
-		    }else{
-			count++;
-		    }
-		}else{
-		    if (test.addWordDiagonal(textlist.get(z),decy,decx)){
-			break;
-		    }else{
-			count++;
-		    }
-		}
-	    }
-	}
-	System.out.println(test);
-    }
+	
 }
