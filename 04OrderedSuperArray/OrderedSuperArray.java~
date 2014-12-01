@@ -1,0 +1,15 @@
+public class OrderedSuperArray extends SuperArray{
+
+    public OrderedSuperArray(){
+	super();
+    }
+    
+    public OrderedSuperArray(int capacity){
+	super(capacity);
+    }
+
+    public static void main(String[]args){
+	OrderedSuperArray test = new OrderedSuperArray(5);
+	System.out.println(test);
+    }
+}
