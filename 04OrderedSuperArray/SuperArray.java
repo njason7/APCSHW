@@ -126,6 +126,27 @@ public class SuperArray{
 	return save;
     }
 
+    public void insertionSort(){
+	for (int i = 1;i<data.length;i++){
+	    for (int j = i;j<i;j--){
+		if (data[i].compareTo(data[i-j]) < 0){
+		    String save = data[i];
+		    for (int k = 0;k < i;k++){
+			data[i-k] = data[i-k-1];
+		    }
+		    data[0] = save;
+		}
+		if (data[i].compareTo(data[i-j]) > 0 && (data[i].compareTo(data[i-j+1]) < 0) || data[i].compareTo(data[i-j+1]) == 0){
+		    String save = data[i];
+		    for (int k = 0;k < i-j;k++){
+			data[i-k] = data[i-k-1];
+		    }
+		    data[i-j] = save;
+		}
+	    }
+	}
+    }
+    
     public static void main(String[]args){
 	SuperArray test = new SuperArray(4);
 	System.out.println(test);
