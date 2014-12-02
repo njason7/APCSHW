@@ -127,23 +127,25 @@ public class SuperArray{
     }
 
     public void insertionSort(){
-	for (int i = 1;i<data.length;i++){
-	    for (int j = i;j<i;j--){
-		if (data[i].compareTo(data[i-j]) < 0){
-		    String save = data[i];
-		    for (int k = 0;k < i;k++){
-			data[i-k] = data[i-k-1];
-		    }
-		    data[0] = save;
+	int i = 1;
+	while (i<data.length){
+	    if (data[i].compareTo(data[0]) < 0){
+		String save = data[i];
+		for (int k = 0;k < i;k++){
+		    data[i-k] = data[i-k-1];
 		}
-		if (data[i].compareTo(data[i-j]) > 0 && (data[i].compareTo(data[i-j+1]) < 0) || data[i].compareTo(data[i-j+1]) == 0){
+		data[0] = save;
+	    }
+	    for (int j = i;j>0;j--){
+		if (data[i].compareTo(data[i-j]) > 0 && data[i].compareTo(data[i-j+1]) < 0){
 		    String save = data[i];
-		    for (int k = 0;k < i-j;k++){
+		    for (int k = 0;k < i-j+1;k++){
 			data[i-k] = data[i-k-1];
 		    }
-		    data[i-j] = save;
+		    data[i-j+1] = save;
 		}
 	    }
+	    i++;
 	}
     }
     
@@ -174,5 +176,12 @@ public class SuperArray{
 	catch (IndexOutOfBoundsException e){
 	    System.out.println("ERROR. INDEX OUT OF BOUNDS.");
 	}
+	SuperArray test2 = new SuperArray(4);
+	test2.add("jkl");
+	test2.add("abc");
+	test2.add("def");
+	test2.add("ghi");
+	test2.insertionSort();
+	System.out.println(test2);
     }
 }
