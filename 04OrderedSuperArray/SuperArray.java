@@ -84,7 +84,13 @@ public class SuperArray{
     
     
     public int size(){
-	return data.length;
+	int count = 0;
+	for (int i = 0;i<data.length;i++){
+	    if (data[i] != null){
+		count++;
+	    }
+	}
+	return count;
     }
     
     public void resize(int newCapacity){
@@ -130,58 +136,71 @@ public class SuperArray{
 	int i = 1;
 	while (i<data.length){
 	    if (data[i].compareTo(data[0]) < 0){
-		String save = data[i];
-		for (int k = 0;k < i;k++){
-		    data[i-k] = data[i-k-1];
-		}
-		data[0] = save;
+		this.add(0,this.remove(i));
 	    }
 	    for (int j = i;j>0;j--){
 		if (data[i].compareTo(data[i-j]) > 0 && data[i].compareTo(data[i-j+1]) < 0){
-		    String save = data[i];
-		    for (int k = 0;k < i-j+1;k++){
-			data[i-k] = data[i-k-1];
-		    }
-		    data[i-j+1] = save;
+		    this.add((i-j),this.remove(i));
 		}
 	    }
 	    i++;
 	}
+    }
+
+    public void badInsertionSort(){
+        OrderedSuperArray c = new OrderedSuperArray();
+        while( this.size() > 0){ 
+            c.add(this.remove(0));
+        }
+        while(c.size() > 0){
+            this.add(c.remove(0));
+        }
     }
     
     public static void main(String[]args){
 	SuperArray test = new SuperArray(4);
 	System.out.println(test);
 	test.add("e");
-	System.out.println(test);
-	test.resize(9);
-	System.out.println(test);
-	Integer x = new Integer(5);
-	SuperArray L = new SuperArray();
-	L.add("x");
-	L.add("99");
-	System.out.println(L);
+	//System.out.println(test);
+	//test.resize(9);
+	//System.out.println(test);
 	test.add(0,"a");
-	System.out.println(test);
+	//System.out.println(test);
 	try{
 	System.out.println(test.get(0));
-	System.out.println(test.get(11));
+	//System.out.println(test.get(11));
 	System.out.println(test.set(0,"u"));
 	System.out.println(test);
-	System.out.println(test.set(11,"u"));	
+	System.out.println(test.size());
+	//System.out.println(test.set(11,"u"));	
 	System.out.println(test.remove(0));
-	System.out.println(test);	
-	System.out.println(test.remove(11));
+	System.out.println(test);
+	System.out.println(test.size());
+	//System.out.println(test.remove(11));
 	}
 	catch (IndexOutOfBoundsException e){
 	    System.out.println("ERROR. INDEX OUT OF BOUNDS.");
 	}
 	SuperArray test2 = new SuperArray(4);
-	test2.add("jkl");
-	test2.add("abc");
-	test2.add("def");
-	test2.add("ghi");
-	test2.insertionSort();
+	for (int i=0;i<20;i++){
+	    test2.add(""+i);
+	}
 	System.out.println(test2);
+	long startTime = System.nanoTime();
+	test2.insertionSort();
+	long endTime = System.nanoTime();
+	long duration = endTime - startTime;
+	System.out.println(test2);
+	System.out.println(duration);
+	SuperArray test3 = new SuperArray(4);
+	for (int i=0;i<20;i++){
+	    test3.add(""+i);
+	}
+	long startTime2 = System.nanoTime();
+	test2.insertionSort();
+	long endTime2 = System.nanoTime();
+	long duration2 = endTime2 - startTime2;
+	System.out.println(test2);
+	System.out.println(duration2);
     }
 }
