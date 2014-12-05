@@ -1,3 +1,4 @@
+import java.util.*;
 public class SuperArray{
     public String[] data;
     public int stored;
@@ -165,6 +166,34 @@ public class SuperArray{
             this.add(c.remove(0));
         }
     }
+
+    public int find(String target){
+	for (int i = 0;i<data.length;i++){
+	    if (data[i].equals(target)){
+		return i;
+	    }
+	}
+	return data.length;
+    }
+
+    public void selectSort(){
+	for (int i =0;i<data.length-1;i++){
+	    int index = 0;
+	    String min = data[i];
+	    for (int j=1;i+j<data.length;j++){
+		if (data[i+j].compareTo(min)<0){
+		    min = data[i+j];
+		    index  = i+j;
+		}
+	    }
+	    data[index] = data[i];
+	    data[i] = min;
+	}
+    }
+
+    public void sort(){
+	Arrays.sort(data);
+    }
     
     public static void main(String[]args){
 	SuperArray test = new SuperArray(4);
@@ -195,23 +224,15 @@ public class SuperArray{
 	test2.add("abc");
 	test2.add("ghi");
 	test2.add("def");
-	System.out.println(test2);
-	long startTime = System.nanoTime();
 	test2.insertionSort();
-	long endTime = System.nanoTime();
-	long duration = endTime - startTime;
 	System.out.println(test2);
-	System.out.println(duration);
 	SuperArray test3 = new SuperArray(4);
 	test3.add("jkl");
 	test3.add("abc");
 	test3.add("def");
 	test3.add("ghi");
-	long startTime2 = System.nanoTime();
-	test3.badInsertionSort();
-	long endTime2 = System.nanoTime();
-	long duration2 = endTime2 - startTime2;
+	test3.sort();
 	System.out.println(test3);
-	System.out.println(duration2);
+
     }
 }
